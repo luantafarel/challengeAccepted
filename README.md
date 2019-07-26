@@ -29,9 +29,6 @@ Implementações:
 - Como os dados são sensíveis acessos podem ser marcados no ElasticSerach para registrar logs.
 - Os retornos devem ser expostos apenas a usuários cadastrados como admistradores do sistema, um usuário deve ser capaz de ver seu próprio retorno.
 
-
-A AWS oferece um serviço chamado [Cognito](https://aws.amazon.com/pt/cognito/) que gerencia, cadastros, logins e acessos. Muito usado por plataformas como Ifood.  Que poderia ser usado para gerenciar os acessos e as permissões de usuários para os serviços.
-
 ## Base C
 A Base C é descrita no problema como:
 > Não possui nenhum tipo de dado crítico, mas precisa de um acesso extremamente rápido.
@@ -45,5 +42,8 @@ Implementações:
 - Acesso base C deve ser feito com autenticação.
 - Não é necessário registrar logs.
 - Os retornos devem ser expostos a todos os usuários, mas dados sigilosos devem ser expostos apenas ao usuário dono do cadastro.
+
+
+> Caso haja tempo hábil será usado um serviço da AWS que se chama[Cognito](https://aws.amazon.com/pt/cognito/) que gerencia, cadastros, logins e acessos. Muito usado por plataformas como Ifood.  Que poderia ser usado para gerenciar os acessos e as permissões de usuários para os serviços.
 
 # Challenge Accepted
