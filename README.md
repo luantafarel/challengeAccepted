@@ -46,4 +46,4 @@ Implementações:
 - Não é necessário registrar logs.
 - Os retornos devem ser expostos a todos os usuários, mas dados sigilosos devem ser expostos apenas ao usuário dono do cadastro.
 
-#Challenge Accepted
+# Challenge Accepted
