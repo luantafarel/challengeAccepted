@@ -1,4 +1,4 @@
-#Desafio proposto por Serasa Consumidor
+# Desafio proposto por Serasa Consumidor
 
 ## Base A
 A Base A é descrita no problema como:
