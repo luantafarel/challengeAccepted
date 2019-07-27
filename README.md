@@ -9,7 +9,38 @@ Sub entende-se que a base de dados não pode sofrer com demoras pela performance
 Implementações:
 - A  base A deve ser feito com autenticação e criptografia.
 - Como os dados são sensíveis acessos podem ser marcados no ElasticSerach para registrar logs.
-- Os retornos devem ser expostos apenas a usuários cadastrados como admistradores do sistema, um usuário deve ser capaz de ver seu próprio retorno.
+- Os retornos devem ser:
+  - Completos se o usuário estiver buscando por ele mesmo.
+    - Além de todos os dados do usuário deve-se retornar como ele se encontra em relação a quantidade de dívidas das outras pessoas do seu estado, cidade, país
+  > Easter egg, usar o primeiro nome e descobir como se encontra a quantidade de dívidas do usuário em relação as pessoas de mesmo nome.
+  - Apenas nome e quantidade de Dívidas se algum outro usuário logado em uma conta diferente da que está buscando fizer a busca.
+  - Existem a possibilidade de outras buscas como: 
+    - Retornar a quantidade de divídas por estado, cidade, país
+
+Modelagem do banco de dados:
+Tabela de usuário:
+  - id
+  - nome
+  - sobrenome
+  - cpf
+  - address_id
+  - debtList_id
+Tabela de endereço:
+  - id
+  - rua
+  - cidade
+  - estado
+  - pais
+Tabela de lista de dívidas:
+  - id
+  - divída
+  
+Todas as tabelas devem possuir data de criação, edição e remoção.
+
+Lista de tarefas
+- [ ] Criar banco de dados e migração
+- [ ] Desenvolver a api
+- [ ] Desenvolver testes unitários
 
 ## Base B
 A Base A é descrita no problema como:
@@ -27,7 +58,45 @@ Existe a possibilidade de usar MongoDb nesse trecho, mas daria preferencia ao Ca
 Implementações:
 - A  base B deve ser feito com autenticação e criptografia.
 - Como os dados são sensíveis acessos podem ser marcados no ElasticSerach para registrar logs.
-- Os retornos devem ser expostos apenas a usuários cadastrados como admistradores do sistema, um usuário deve ser capaz de ver seu próprio retorno.
+- Os retornos devem ser:
+  - Completos se o usuário estiver buscando por ele mesmo.
+    - Além disso deve-se calcular seu score pessoal de crédito e formas de aumentá-lo.
+      - Esse cálculo será feito partiondo do pré-suposto que a pessoa possuí crédito 0
+        - O cálculo do score será (salário x 1/5) como eu não tenho informação da quantidade de dívidas e da inadimplência do usuário vou assumir que se ele receber 5000 ele pode possuir um score 1000
+        - O resultado deve ser somado aos bens x um numero que pode ser 300, 400 ou 500, caso o usuário possua um  carro, apartamento ou casa.
+    - É possível ver como está seu score em relação a outros usuários da mesma idade, da mesma cidade e estado.
+ - É possivel apenas ver o score de outros usuários.
+  - Apenas nome e quantidade de Dívidas se algum outro usuário logado em uma conta diferente da que está buscando fizer a busca.
+  - Existem a possibilidade de outras buscas como: 
+    - Retornar a quantidade de divídas por estado, cidade, país
+
+Modelagem do banco de dados.
+Tabela de usuário:
+  - id
+  - idade
+  _ address_id
+Tabela de endereço:
+  - id
+  - rua
+  - cidade
+  - estado
+  - pais
+Tabela de lista de lista de bens:
+  - id
+  - bem
+  - tipo de bem
+  - user_id
+Tabela de fonte de renda:
+  - id
+  - descrição
+  - valor
+  - user_id
+Todas as tabelas devem possuir data de criação, edição e remoção.
+
+Lista de tarefas
+- [ ] Criar banco de dados e migração
+- [ ] Desenvolver a api
+- [ ] Desenvolver testes unitários
 
 ## Base C
 A Base C é descrita no problema como:
@@ -41,8 +110,30 @@ Implementações:
 - Acesso a base C pode ser feito sem criptografia.
 - Acesso base C deve ser feito com autenticação.
 - Não é necessário registrar logs.
-- Os retornos devem ser expostos a todos os usuários, mas dados sigilosos devem ser expostos apenas ao usuário dono do cadastro.
+- Os retornos devem ser:
+  - Completos e apenas deve ser possível buscar a si mesmo.
+  
+Modelagem do banco de dados.
+Tabela de consultas do cpf:
+  - id
+  - cpf
+  _ las_access
+  - lasBuy_id
+Tabela de movimentação do cpf:
+  - user_id
+  - descrição
+  - valor
+  - data
+Tabela de lista de última compra no CPF:
+  - user_id
+  - valor da compra
+  - data
+  - a_vista - (bool)
 
+Lista de tarefas
+- [ ] Criar banco de dados e migração
+- [ ] Desenvolver a api
+- [ ] Desenvolver testes unitários
 
 > Caso haja tempo hábil será usado um serviço da AWS que se chama[Cognito](https://aws.amazon.com/pt/cognito/) que gerencia, cadastros, logins e acessos. Muito usado por plataformas como Ifood.  Que poderia ser usado para gerenciar os acessos e as permissões de usuários para os serviços.
 
