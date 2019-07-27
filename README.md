@@ -18,6 +18,7 @@ Implementações:
     - Retornar a quantidade de divídas por estado, cidade, país
 
 Modelagem do banco de dados:
+
 Tabela de usuário:
   - id
   - nome
@@ -25,12 +26,14 @@ Tabela de usuário:
   - cpf
   - address_id
   - debtList_id
+  
 Tabela de endereço:
   - id
   - rua
   - cidade
   - estado
   - pais
+
 Tabela de lista de dívidas:
   - id
   - divída
@@ -71,26 +74,31 @@ Implementações:
     - Retornar a quantidade de divídas por estado, cidade, país
 
 Modelagem do banco de dados.
+
 Tabela de usuário:
   - id
   - idade
   _ address_id
+
 Tabela de endereço:
   - id
   - rua
   - cidade
   - estado
   - pais
+
 Tabela de lista de lista de bens:
   - id
   - bem
   - tipo de bem
   - user_id
+
 Tabela de fonte de renda:
   - id
   - descrição
   - valor
   - user_id
+
 Todas as tabelas devem possuir data de criação, edição e remoção.
 
 Lista de tarefas
@@ -114,16 +122,19 @@ Implementações:
   - Completos e apenas deve ser possível buscar a si mesmo.
   
 Modelagem do banco de dados.
+
 Tabela de consultas do cpf:
   - id
   - cpf
   _ las_access
   - lasBuy_id
+
 Tabela de movimentação do cpf:
   - user_id
   - descrição
   - valor
   - data
+
 Tabela de lista de última compra no CPF:
   - user_id
   - valor da compra
