@@ -25,7 +25,6 @@ Tabela de usuário:
   - sobrenome
   - cpf
   - address_id
-  - debtList_id
   
 Tabela de endereço:
   - id
@@ -37,6 +36,7 @@ Tabela de endereço:
 Tabela de lista de dívidas:
   - id
   - divída
+  - user_id
   
 Todas as tabelas devem possuir data de criação, edição e remoção.
 
