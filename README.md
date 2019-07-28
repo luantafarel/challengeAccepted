@@ -41,7 +41,7 @@ Tabela de lista de dívidas:
 Todas as tabelas devem possuir data de criação, edição e remoção.
 
 Lista de tarefas
-- [ ] Criar banco de dados e migração
+- [x] Criar banco de dados e migração
 - [ ] Desenvolver a api
 - [ ] Desenvolver testes unitários
 
