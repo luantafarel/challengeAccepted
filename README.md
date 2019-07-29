@@ -149,3 +149,10 @@ Lista de tarefas
 > Caso haja tempo hábil será usado um serviço da AWS que se chama[Cognito](https://aws.amazon.com/pt/cognito/) que gerencia, cadastros, logins e acessos. Muito usado por plataformas como Ifood.  Que poderia ser usado para gerenciar os acessos e as permissões de usuários para os serviços.
 
 # Challenge Accepted
+
+
+#Final Report
+
+- A tarefa não determinava certamente qual banco ou linguagem usar, mas resolvi sair da zona de conforto e mostrar que eu tinha capacidade de lidar com qualquer coisa que fosse proposta.
+- Claro que isso gerou atrasos com a curva de aprendizagem da linguagem, mas valeu a pena, dando certo ou não a oportunidade sou grato pelo conhecimento adquirido.
+- Não removi os arquivos que foram gerados automáticamente no processo de desenvolvimento. 
