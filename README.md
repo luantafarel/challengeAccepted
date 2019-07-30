@@ -4,7 +4,7 @@
 A Base A é descrita no problema como:
 > Extremamente sensível e deve ser protegida com os maiores níveis de segurança, mas o acesso a esses dados não precisa ser tão performática.
 
-Sub entende-se que a base de dados não pode sofrer com demoras pela performance de uma consulta. Nesse caso eu escolheria o banco de dados MySql para armazenar a Base A.
+Sub entende-se que é aceitável que a base de dados sofra com algumas demoras pela performance de uma consulta. Nesse caso eu escolheria o banco de dados MySql para armazenar a Base A.
 
 Implementações:
 - A  base A deve ser feito com autenticação e criptografia.
@@ -46,12 +46,12 @@ Lista de tarefas
 - [ ] Desenvolver testes unitários
 
 ## Base B
-A Base A é descrita no problema como:
+A Base B é descrita no problema como:
 > Também possui dados críticos, mas ao contrário da Base A, o acesso precisa ser um pouco mais rápido. Uma outra característica da Base B é que além de consultas ela é utilizada para extração de dados por meio de algoritmos de aprendizado de máquina.
 
-Sub entende-se que a base de dados não se importa em sofrer leves perdas de performance. mas necessita de uma leve melhoria de performance em relação a base de dados A. Para tal usaria um banco de dados chamado Cassandra Db.
+Sub entende-se que a base de dados não deve sofrer com perdas de performance e vai ser acessada frequentemente por ferramentas automatizadas. Para tal usaria um banco nosql, por exemplo Cassandra Db.
 
-> O Cassandra é um banco de dados não relacional e colunar, ele  é considerado um banco AP (Availability / Partition Tolerance) por ser altamente escalável e distribuído. Como ele não tem transações em determinados momentos, a leitura dos dados pode não ter consistência, tendo em vista que o Cassandra demora alguns milissegundos para reorganizar o cluster.
+> O Cassandra é um banco de dados não relacional e colunar, ele é considerado um banco AP (Availability / Partition Tolerance) por ser altamente escalável e distribuído. Como ele não tem transações em determinados momentos, a leitura dos dados pode não ter consistência, tendo em vista que o Cassandra demora alguns milissegundos para reorganizar o cluster (consistência eventual).
 
 Existe a possibilidade de usar MongoDb nesse trecho, mas daria preferencia ao Cassandra
 #####Razões:
@@ -59,12 +59,12 @@ Existe a possibilidade de usar MongoDb nesse trecho, mas daria preferencia ao Ca
 - [Scalegrid](https://scalegrid.io/blog/cassandra-vs-mongodb/)
 
 Implementações:
-- A  base B deve ser feito com autenticação e criptografia.
+- A base B deve ser feita com autenticação e criptografia.
 - Como os dados são sensíveis acessos podem ser marcados no ElasticSerach para registrar logs.
 - Os retornos devem ser:
   - Completos se o usuário estiver buscando por ele mesmo.
     - Além disso deve-se calcular seu score pessoal de crédito e formas de aumentá-lo.
-      - Esse cálculo será feito partiondo do pré-suposto que a pessoa possuí crédito 0
+      - Esse cálculo será feito partindo do pré-suposto que a pessoa possuí crédito 0
         - O cálculo do score será (salário x 1/5) como eu não tenho informação da quantidade de dívidas e da inadimplência do usuário vou assumir que se ele receber 5000 ele pode possuir um score 1000
         - O resultado deve ser somado aos bens x um numero que pode ser 300, 400 ou 500, caso o usuário possua um  carro, apartamento ou casa.
     - É possível ver como está seu score em relação a outros usuários da mesma idade, da mesma cidade e estado.
@@ -102,7 +102,7 @@ Tabela de fonte de renda:
 Todas as tabelas devem possuir data de criação, edição e remoção.
 
 Lista de tarefas
-- [ ] Criar banco de dados e migração
+- [x] Criar banco de dados e migração
 - [ ] Desenvolver a api
 - [ ] Desenvolver testes unitários
 
@@ -142,11 +142,11 @@ Tabela de lista de última compra no CPF:
   - a_vista - (bool)
 
 Lista de tarefas
-- [ ] Criar banco de dados e migração
+- [x] Criar banco de dados e migração
 - [ ] Desenvolver a api
 - [ ] Desenvolver testes unitários
 
-> Caso haja tempo hábil será usado um serviço da AWS que se chama[Cognito](https://aws.amazon.com/pt/cognito/) que gerencia, cadastros, logins e acessos. Muito usado por plataformas como Ifood.  Que poderia ser usado para gerenciar os acessos e as permissões de usuários para os serviços.
+> Caso haja tempo hábil será usado um serviço da AWS chamado [Cognito](https://aws.amazon.com/pt/cognito/) que gerencia cadastros, logins, acessos e permissões de usuário, utilizado em diversas plataformas como por exemplo o Ifood.
 
 # Challenge Accepted
 
