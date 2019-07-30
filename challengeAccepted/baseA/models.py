@@ -15,7 +15,7 @@ class Address(models.Model):
     country = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    deleted_at = models.DateTimeField()
+    deleted_at = models.DateTimeField(null=True)
 
     def __str__(self):
         return '%s %s %s %s' % (self.street, self.city, self.country, self.state)
@@ -33,10 +33,10 @@ class User(models.Model):
     address = models.ForeignKey(Address, on_delete=models.deletion.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    deleted_at = models.DateTimeField()
+    deleted_at = models.DateTimeField(null=True)
 
     def __str__(self):
-        return '%s %s' % (self.name, self.second_name)
+        return "{} - {} - {} ".format(self.name, self.second_name, self.cpf)
 
 
 class Debt(models.Model):
@@ -49,7 +49,7 @@ class Debt(models.Model):
     user = models.ForeignKey(User, on_delete=models.deletion.PROTECT, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
-    deleted_at = models.DateTimeField()
+    deleted_at = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.debt

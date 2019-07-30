@@ -1,5 +1,11 @@
-from django.http import HttpResponse
+from rest_framework import generics
+from .models import User
+from .serializers import UserSerializer
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+class ListUserView(generics.ListAPIView):
+    """
+    Provides a get method handler.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
