@@ -19,24 +19,7 @@ Implementações:
 
 Modelagem do banco de dados:
 
-Tabela de usuário:
-  - id
-  - nome
-  - sobrenome
-  - cpf
-  - address_id
-  
-Tabela de endereço:
-  - id
-  - rua
-  - cidade
-  - estado
-  - pais
-
-Tabela de lista de dívidas:
-  - id
-  - divída
-  - user_id
+![](https://i.imgur.com/mJ7Z8W2.jpg)
   
 Todas as tabelas devem possuir data de criação, edição e remoção.
 
