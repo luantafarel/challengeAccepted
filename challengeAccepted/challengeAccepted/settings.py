@@ -25,7 +25,7 @@ SECRET_KEY = 'sxnob=3_f36upjsdo9q2y8_6c(x!yox)s+nbckn3(1p_i0%iqc'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost:3333']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -38,8 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'baseA',
+    'rest_framework',
+    'django.contrib.humanize',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -55,7 +63,6 @@ ROOT_URLCONF = 'challengeAccepted.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -65,6 +72,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # new
     },
 ]
 
@@ -77,7 +85,7 @@ WSGI_APPLICATION = 'challengeAccepted.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'app_development', #challenge
+        'NAME': 'app_development',  # challenge
         'USER': 'root',
         'PASSWORD': 'password',
         'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
