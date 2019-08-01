@@ -1,70 +1,92 @@
 const Boom = require('boom')
-const Redis = require('ioredis')
-const moment = require('moment')
-const apiUtils = require('../../apiUtils')
-const database = require('config/database.js')
-const redis = new Redis(database.redis)
+const Sequelize = require('sequelize')
+const Bluebird = require('bluebird')
+const arraySum = require('array-sum')
+const db = require('models')
+const Op = Sequelize.Op
 module.exports = {
-  on: async (request) => {
+  baseA: async request => {
     try {
-      await apiUtils.verifyToken(request.headers.authorization)
-    } catch (err) {
-      return err
-    }
-    let lights = await redis.get('lights').then(function (result) { return result })
-    if (lights) lights = JSON.parse(lights)
-    else return Boom.notFound('no_lights_found')
-    if (!lights[request.params.id]) return Boom.notFound('light_not_found')
-    lights[request.params.id].status = 'ON'
-    if (!await redis.set('lights', JSON.stringify(lights)).then(function (result) { return result })) return Boom.notFound('light_not_created')
-    return lights[request.params.id].status
-  },
-  off: async (request) => {
-    try {
-      await apiUtils.verifyToken(request.headers.authorization)
-    } catch (err) {
-      return err
-    }
-    let lights = await redis.get('lights').then(function (result) { return result })
-    if (lights) lights = JSON.parse(lights)
-    else return Boom.notFound('no_lights_found')
-    if (!lights[request.params.id]) return Boom.notFound('light_not_found')
-    lights[request.params.id].status = 'OFF'
-    if (!await redis.set('lights', JSON.stringify(lights)).then(function (result) { return result })) return Boom.notFound('light_not_created')
-    return lights[request.params.id].status
-  },
-  listALL: async (request) => {
-    try {
-      await apiUtils.verifyToken(request.headers.authorization)
-    } catch (err) {
-      return err
-    }
-    const lights = await redis.get('lights').then(function (result) { return result })
-    return lights ? JSON.parse(lights) : Boom.notFound('no_lights_found')
-  },
-  create: async (request) => {
-    try {
-      const decoded = await apiUtils.verifyToken(request.headers.authorization)
-      if (!decoded.admin) return Boom.forbidden('user_is_not_admin')
-    } catch (err) {
-      return err
-    }
-    let id = await redis.get('lightsId').then(function (result) { return result })
-    if (!id) id = 0
-    else {
-      id = Number(id)
-      id++
-    }
-    await redis.set('lightsId', id).then(function (result, error) { return result })
+      let user = Object.assign(
+        {},
+        await db.Users.scope('main').findOne({
+          where: { cpf: request.query.cpf }
+        })
+      )
+      if (!user) return Boom.notFound('user_not_found')
+      user.debts_amout = user.debts.length
+      const otherUsers = db.Users.scope('main').findAll({
+        where: { [Op.not]: { id: user.id } }
+      })
+      let sameSt = []
+      let sameCt = []
+      let sameState = []
+      let sameCnt = []
+      let stMax = 0
+      let stMin = Infinity
+      let cntMax = 0
+      let cntMin = Infinity
+      let stateMax = 0
+      let stateMin = Infinity
+      let ctMax = 0
+      let ctMin = Infinity
+      await Bluebird.map(otherUsers, otherUser => {
+        if (otherUser.address.street === user.address.street) {
+          sameSt.push(otherUser.debts.length)
+          if (otherUser.debts.length > stMax) stMax = otherUser.debts.length
+          if (otherUser.debts.length < stMin) stMin = otherUser.debts.length
+        }
+        if (otherUser.address.county === user.address.county) {
+          sameCnt.push(otherUser.debts.length)
+          if (otherUser.debts.length > cntMax) cntMax = otherUser.debts.length
+          if (otherUser.debts.length < cntMin) cntMin = otherUser.debts.length
+        }
+        if (otherUser.address.state === user.address.state) {
+          sameState.push(otherUser.debts.length)
+          if (otherUser.debts.length > stateMax)
+            stateMax = otherUser.debts.length
+          if (otherUser.debts.length < stateMin)
+            stateMin = otherUser.debts.length
+        }
+        if (otherUser.address.city === user.address.city) {
+          sameCt.push(otherUser.debts.length)
+          if (otherUser.debts.length > ctMax) ctMax = otherUser.debts.length
+          if (otherUser.debts.length < ctMin) ctMin = otherUser.debts.length
+        }
+      })
+      if (user.debts_amout >= stMax) user.maisEndividadoStreet = true
+      else user.maisEndividadoStreet = false
+      if (user.debts_amout >= ctMax) user.maisEndividadoCity = true
+      else user.maisEndividadoCity = false
+      if (user.debts_amout >= stateMax) user.maisEndividadoState = true
+      else user.maisEndividadoState = false
+      if (user.debts_amout >= cntMax) user.maisEndividadoCountry = true
+      else user.maisEndividadoCountry = false
 
-    let payload = {}
-    payload[id] = Object.assign({ created_at: moment.utc().format(), updated_at: moment.utc().format(), deleted_at: null }, request.payload)
+      if (user.debts_amout <= stMin) user.menosEndividadoStreet = true
+      else user.menosEndividadoStreet = false
+      if (user.debts_amout <= ctMin) user.menosEndividadoCity = true
+      else user.menosEndividadoCity = false
+      if (user.debts_amout <= stateMin) user.menosEndividadoState = true
+      else user.menosEndividadoState = false
+      if (user.debts_amout <= cntMin) user.menosEndividadoCountry = true
+      else user.menosEndividadoCountry = false
 
-    const lightsInRedis = await redis.get('lights').then(function (result) { return result })
-
-    if (lightsInRedis) payload = Object.assign({}, JSON.parse(lightsInRedis), payload)
-
-    if (!await redis.set('lights', JSON.stringify(payload)).then(function (result) { return result })) return Boom.notFound('light_not_created')
-    return { id: id, body: payload[id] }
+      if (user.debts_amout >= arraySum(sameSt) / sameSt.length)
+        user.abvAvgStreet = true
+      else user.abvAvgStreet = false
+      if (user.debts_amout >= arraySum(sameCnt) / sameCnt.length)
+        user.abvAvgCity = true
+      else user.abvAvgCity = false
+      if (user.debts_amout >= arraySum(sameState) / sameState.length)
+        user.abvAvgState = true
+      else user.abvAvgState = false
+      if (user.debts_amout >= arraySum(sameCt) / sameCt.length)
+        user.abvAvgCountry = true
+      else user.abvAvgCountry = false
+      return user
+    } catch (err) {
+      console.log(err)
+    }
   }
 }

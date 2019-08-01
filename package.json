@@ -52,6 +52,7 @@
     "vision": "^5.4.4"
   },
   "devDependencies": {
+    "array-sum": "^1.0.0",
     "sequelize-cli": "^5.4.0"
   }
 }

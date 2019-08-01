@@ -46,7 +46,7 @@ module.exports = {
         description: "User's cpf"
       },
       address_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true,
         defaultValue: null,
         references: {

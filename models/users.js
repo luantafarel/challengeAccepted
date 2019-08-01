@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         description: "User's cpf"
       },
       address_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: true,
         defaultValue: null,
         references: {
@@ -59,5 +59,19 @@ module.exports = (sequelize, DataTypes) => {
     { tableName: 'users' }
   )
   if (typeof Users === 'undefined') return
+
+  Users.associate = db => {
+    Users.belongsTo(db.Address, { as: 'address' })
+    Users.hasMany(db.Debt, { as: 'debts', foreignKey: 'user_id' })
+  }
+  Users.addScopes = db => {
+    Users.addScope('main', {
+      attributes: ['name', 'last_name', 'cpf', 'id'],
+      include: [
+        { model: db.Address.scope('compact'), as: 'address' },
+        { model: db.Debt.scope('compact'), as: 'debts' }
+      ]
+    })
+  }
   return Users
 }

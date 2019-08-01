@@ -28,8 +28,18 @@ module.exports = (sequelize, DataTypes) => {
         description: 'Record deleted at'
       }
     },
-    { tableName: 'debt' }
+    {
+      tableName: 'debt',
+      scopes: {
+        compact: {
+          attributes: ['debt', 'created_at']
+        }
+      }
+    }
   )
   if (typeof Debt === 'undefined') return
+  Debt.associate = db => {
+    Debt.belongsTo(db.Users, { as: 'debts', foreignKey: 'user_id' })
+  }
   return Debt
 }
