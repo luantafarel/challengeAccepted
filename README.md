@@ -139,3 +139,15 @@ Lista de tarefas
 - A tarefa não determinava certamente qual banco ou linguagem usar, mas resolvi sair da zona de conforto e mostrar que eu tinha capacidade de lidar com qualquer coisa que fosse proposta.
 - Claro que isso gerou atrasos com a curva de aprendizagem da linguagem, mas valeu a pena, dando certo ou não a oportunidade sou grato pelo conhecimento adquirido.
 - Não removi os arquivos que foram gerados automáticamente no processo de desenvolvimento. 
+
+#Conclusão
+
+- Apesar dos esforços me faltou experiência para terminar a implementação da tarefa em python, perdi o computador que estava usando no processo e não consegui reaver o que precisava para continuar a implementação. 
+- Para não ficar sem implementar nada implementei a solução em node da baseA mas como só utilizei 4 horas e preciso viajar não consigo implementar as outras bases.
+- Para rodar apenas utilize o comando 
+  - docker-compose.yml up
+  - npm install
+  - npm start
+  - pode-se utilizar pm2 logs para acessá-los
+
+## Muito obrigado pela oportunidade de conhecê-los e espero poder fazer o processo novamente quando tiver mais experiência em python. Estou a disposição para conversar sobre o projeto.

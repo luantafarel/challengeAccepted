@@ -7,12 +7,7 @@ const Op = Sequelize.Op
 module.exports = {
   baseA: async request => {
     try {
-      let user = Object.assign(
-        {},
-        await db.Users.scope('main').findOne({
-          where: { cpf: request.query.cpf }
-        })
-      )
+      let user = await db.Users.scope('main').findOne({where: { cpf: request.query.cpf }})
       if (!user) return Boom.notFound('user_not_found')
       user.debts_amout = user.debts.length
       const otherUsers = db.Users.scope('main').findAll({
@@ -43,10 +38,8 @@ module.exports = {
         }
         if (otherUser.address.state === user.address.state) {
           sameState.push(otherUser.debts.length)
-          if (otherUser.debts.length > stateMax)
-            stateMax = otherUser.debts.length
-          if (otherUser.debts.length < stateMin)
-            stateMin = otherUser.debts.length
+          if (otherUser.debts.length > stateMax) stateMax = otherUser.debts.length
+          if (otherUser.debts.length < stateMin) stateMin = otherUser.debts.length
         }
         if (otherUser.address.city === user.address.city) {
           sameCt.push(otherUser.debts.length)
@@ -72,19 +65,18 @@ module.exports = {
       if (user.debts_amout <= cntMin) user.menosEndividadoCountry = true
       else user.menosEndividadoCountry = false
 
-      if (user.debts_amout >= arraySum(sameSt) / sameSt.length)
-        user.abvAvgStreet = true
+      if (user.debts_amout >= arraySum(sameSt) / sameSt.length) user.abvAvgStreet = true
       else user.abvAvgStreet = false
-      if (user.debts_amout >= arraySum(sameCnt) / sameCnt.length)
-        user.abvAvgCity = true
+      if (user.debts_amout >= arraySum(sameCnt) / sameCnt.length) user.abvAvgCity = true
       else user.abvAvgCity = false
-      if (user.debts_amout >= arraySum(sameState) / sameState.length)
-        user.abvAvgState = true
+      if (user.debts_amout >= arraySum(sameState) / sameState.length) user.abvAvgState = true
       else user.abvAvgState = false
-      if (user.debts_amout >= arraySum(sameCt) / sameCt.length)
-        user.abvAvgCountry = true
+      if (user.debts_amout >= arraySum(sameCt) / sameCt.length) user.abvAvgCountry = true
       else user.abvAvgCountry = false
-      return user
+      const response = Object.assign(
+        {}, user)
+      console.log(response)
+      return response
     } catch (err) {
       console.log(err)
     }
