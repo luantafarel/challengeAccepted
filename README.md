@@ -147,7 +147,8 @@ Lista de tarefas
 - Para rodar apenas utilize o comando 
   - docker-compose.yml up
   - npm install
+  - npm run migrate
   - npm start
   - pode-se utilizar pm2 logs para acessá-los
 
-## Muito obrigado pela oportunidade de conhecê-los e espero poder fazer o processo novamente quando tiver mais experiência em python. Estou a disposição para conversar sobre o projeto.
+##### Muito obrigado pela oportunidade de conhecê-los e espero poder fazer o processo novamente quando tiver mais experiência em python. Estou a disposição para conversar sobre o projeto.
